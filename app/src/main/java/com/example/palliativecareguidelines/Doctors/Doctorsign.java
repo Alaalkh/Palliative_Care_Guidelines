@@ -111,9 +111,9 @@ public class Doctorsign extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
-                        //startActivity(new Intent(Doctorsign.this, DoctorHome.class));
-//                        doctorModule pationtsModule = new doctorModule(name, address, birthdate, email, phone, password, confrimpassword);
-//                        databaseReference.child(name).setValue(pationtsModule);
+                        startActivity(new Intent(Doctorsign.this, ChatDoctor.class));
+                        doctorModule pationtsModule = new doctorModule(name, address, birthdate, email, phone, password, confrimpassword);
+                        databaseReference.child(name).setValue(pationtsModule);
                         String deviceToken= FirebaseInstanceId.getInstance().getToken();
                         String currentUserID=firebaseAuth.getCurrentUser().getUid();
                         databaseReference.child("Doctors").child(currentUserID).setValue("");

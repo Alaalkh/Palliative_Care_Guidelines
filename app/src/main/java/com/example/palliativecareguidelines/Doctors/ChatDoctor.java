@@ -2,13 +2,20 @@ package com.example.palliativecareguidelines.Doctors;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.palliativecareguidelines.Adapters.MyAdapter;
 import com.example.palliativecareguidelines.Adapters.MyAdapter2;
+import com.example.palliativecareguidelines.Pationts.ChatActivity;
+import com.example.palliativecareguidelines.Pationts.SettingsPage;
 import com.example.palliativecareguidelines.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -53,4 +60,39 @@ public class ChatDoctor extends AppCompatActivity {
             }
         });
 
-    }}
+
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.options_menu2,menu);
+
+        return true;
+    }
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id=item.getItemId();
+        if(id==R.id.main_find_friends)
+        {
+            sendUserToFindFriendsActivity();
+        }
+        if(id==R.id.main_settings)
+        {
+            sendUserTosettingActivity();
+        }
+
+
+
+        return true;
+    }
+
+    private void sendUserToFindFriendsActivity() {
+        Intent friendsintent=new Intent(ChatDoctor.this, FindPationts.class);
+        startActivity(friendsintent);
+    }
+
+    private void sendUserTosettingActivity() {
+        Intent friendsintent=new Intent(ChatDoctor.this, Settings.class);
+        startActivity(friendsintent);
+    }
+}

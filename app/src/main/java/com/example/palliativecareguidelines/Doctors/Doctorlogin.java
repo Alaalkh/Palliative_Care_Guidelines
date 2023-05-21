@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.palliativecareguidelines.Pationts.HomeScreen;
+import com.example.palliativecareguidelines.Pationts.PationtLogin;
 import com.example.palliativecareguidelines.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -53,6 +55,10 @@ public class Doctorlogin extends AppCompatActivity {
 
             }
         });
+        if (firebaseAuth.getCurrentUser()!= null){
+            startActivity(new Intent(Doctorlogin.this, ChatDoctor.class));
+
+        }
     }
 
     private void logindoctorUser() {
@@ -71,7 +77,7 @@ public class Doctorlogin extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
                         Toast.makeText(Doctorlogin.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
-                       // startActivity(new Intent(Doctorlogin.this, DoctorHome.class));
+                        startActivity(new Intent(Doctorlogin.this, ChatDoctor.class));
                         progressDialog.cancel();
                     }else{
                         Toast.makeText(Doctorlogin.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
