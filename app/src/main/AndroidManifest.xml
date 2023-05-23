@@ -16,7 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PalliativeCareGuidelines"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Doctors.sendrequest"
+            android:exported="false" />
+        <activity
+            android:name=".Pationts.FindActivity"
+            android:exported="false" />
         <activity
             android:name=".Doctors.FindPationts"
             android:exported="false" />
@@ -28,9 +33,6 @@
             android:exported="false" />
         <activity
             android:name=".Pationts.ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Pationts.FindFriendsActivity"
             android:exported="false" />
         <activity
             android:name=".Pationts.ChatPage"
@@ -59,9 +61,11 @@
             android:exported="false" />
         <activity
             android:name=".Doctors.AddTopicsScreen"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".Doctors.DoctorHome" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
+
+         <activity
+         android:name=".Doctors.DoctorHome"
+         android:exported="false" />
         <activity
             android:name=".Pationts.chooseScreen"
             android:exported="false" />

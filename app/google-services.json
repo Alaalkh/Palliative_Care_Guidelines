@@ -1,15 +1,45 @@
 {
   "project_info": {
     "project_number": "924249699289",
+    "firebase_url": "https://palliative-care-guidelines-default-rtdb.firebaseio.com",
     "project_id": "palliative-care-guidelines",
     "storage_bucket": "palliative-care-guidelines.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:924249699289:android:d75665c24a58ff4e785fc8",
+        "mobilesdk_app_id": "1:924249699289:android:eee8744252bfa376785fc8",
         "android_client_info": {
           "package_name": "com.example.palliativecareguidelines"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924249699289-ggaivadnggfkm0hiohkn5f6j55tct6h6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoqMKKJl6fXfY3LZL-bm2mzb4MVDGn8io"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924249699289-ggaivadnggfkm0hiohkn5f6j55tct6h6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924249699289:android:c8e3a18aa63ebc06785fc8",
+        "android_client_info": {
+          "package_name": "com.example.palliativehealthcare"
         }
       },
       "oauth_client": [

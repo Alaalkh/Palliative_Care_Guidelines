@@ -56,7 +56,7 @@ public class Doctorlogin extends AppCompatActivity {
             }
         });
         if (firebaseAuth.getCurrentUser()!= null){
-            startActivity(new Intent(Doctorlogin.this, ChatDoctor.class));
+            startActivity(new Intent(Doctorlogin.this, DoctorHome.class));
 
         }
     }
@@ -77,7 +77,7 @@ public class Doctorlogin extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
                         Toast.makeText(Doctorlogin.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Doctorlogin.this, ChatDoctor.class));
+                        startActivity(new Intent(Doctorlogin.this, DoctorHome.class));
                         progressDialog.cancel();
                     }else{
                         Toast.makeText(Doctorlogin.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

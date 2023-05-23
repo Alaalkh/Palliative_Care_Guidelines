@@ -157,7 +157,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
     private void sendUserToFindFriendsActivity() {
-        Intent friendsintent=new Intent(ChatActivity.this,FindFriendsActivity.class);
+        Intent friendsintent=new Intent(ChatActivity.this,FindActivity.class);
         startActivity(friendsintent);
     }
     private void sendUserTosettingActivity() {
