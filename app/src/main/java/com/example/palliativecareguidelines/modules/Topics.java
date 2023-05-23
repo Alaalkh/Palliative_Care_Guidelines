@@ -28,15 +28,6 @@ public class Topics {
     }
 
     private String topic_title;
-
-    public String getTopic_video() {
-        return topic_video;
-    }
-
-    public void setTopic_video(String topic_video) {
-        this.topic_video = topic_video;
-    }
-
     private String topic_video;
 
     public Topics(String topic_title, String topic_content, String image,String topic_video) {
