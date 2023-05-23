@@ -24,6 +24,7 @@ import com.example.palliativecareguidelines.R;
 import com.example.palliativecareguidelines.modules.Topics;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -150,10 +151,27 @@ public class AddTopicsScreen extends AppCompatActivity {
 
                         String title=address.getText().toString();
                         String content=cotent.getText().toString();
+                    Map<String, Object> topic = new HashMap<>();
+                    topic.put("topic_title", title.toString());
+                    topic.put("topic_content", content.toString());
+                    topic.put("topic_image", imageUri.toString());
+                    topic.put("topic_video", video_Uri.toString());
 
-                        firebaseFirestore.collection("Topics").document().set(
-                                new Topics("",title,content,imageUri.toString(),video_Uri.toString())
-                        );
+                    firebaseFirestore.collection("Topics")
+                            .add(topic)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                    Toast.makeText(AddTopicsScreen.this, " Added Successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("TAG", "Error adding document", e);
+                                }
+                            });
 
                 });
 
