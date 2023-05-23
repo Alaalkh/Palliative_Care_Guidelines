@@ -127,7 +127,7 @@ public class updateTopic extends AppCompatActivity {
 
                         firebaseFirestore.collection("Topics").document(id).update("topic_title", address.getText().toString(),
                                       "topic_content",  cotent.getText().toString(),
-                                        "image",imageUri.toString(),
+                                        "topic_image",imageUri.toString(),
                                         "topic_video",videoUri.toString()
                                         )
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
