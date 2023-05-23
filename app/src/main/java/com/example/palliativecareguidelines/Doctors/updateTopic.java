@@ -126,8 +126,8 @@ public class updateTopic extends AppCompatActivity {
                     storageReference.getDownloadUrl().addOnSuccessListener(imageUri-> {
 
                         firebaseFirestore.collection("Topics").document(id).
-                                update("title", address.getText().toString(),
-                                        "content",cotent.getText().toString()
+                                update("topic_title", address.getText().toString(),
+                                        "topic_content",cotent.getText().toString()
                                         ,"image",imageUri.toString(),
                                         "topic_video",videoUri.toString())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {

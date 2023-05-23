@@ -139,7 +139,7 @@ public class AddTopicsScreen extends AppCompatActivity {
     public void uploadtopic(){
         storageReference= FirebaseStorage.getInstance().getReference("videos/");
 
-            storageReference.getDownloadUrl().addOnSuccessListener(videoUri -> {
+            storageReference.getDownloadUrl().addOnSuccessListener( videoUri -> {
 
         storageReference= FirebaseStorage.getInstance().getReference("images/");
         storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
