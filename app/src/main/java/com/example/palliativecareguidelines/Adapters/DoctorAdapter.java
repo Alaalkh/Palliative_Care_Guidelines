@@ -108,6 +108,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
 
 
     Topics getItem(int id) {
+
         return mData.get(id);
     }
 

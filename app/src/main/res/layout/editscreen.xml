@@ -12,7 +12,7 @@
         android:layout_height="46dp"
         android:layout_marginTop="16dp"
         android:gravity="center_vertical"
-        android:text="لاضافة بيانات جديدة .."
+        android:text="لتعديل بيانات جديدة .."
         android:textColor="@color/blue"
         android:textDirection="rtl"
         android:textSize="30sp"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/choose_image"
+        android:id="@+id/edit_choose_image"
         android:layout_width="190dp"
         android:layout_height="45dp"
         android:layout_marginStart="36dp"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <EditText
-        android:id="@+id/topic_address"
+        android:id="@+id/edittopic_address"
         android:layout_width="310dp"
         android:layout_height="65dp"
         android:layout_marginTop="216dp"
@@ -47,10 +47,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_add" />
+        app:layout_constraintTop_toBottomOf="@+id/image_update" />
 
     <EditText
-        android:id="@+id/topic_details"
+        android:id="@+id/edittopic_details"
         android:layout_width="300dp"
         android:layout_height="115dp"
         android:layout_marginTop="20dp"
@@ -64,28 +64,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.519"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_address" />
+        app:layout_constraintTop_toBottomOf="@+id/edittopic_address" />
 
-    <Button
-        android:id="@+id/add_btn"
-        android:layout_width="170dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="8dp"
-        android:text="اضافة"
-        android:textSize="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.547"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressbar" />
 
     <ImageView
-        android:id="@+id/image_add"
+        android:id="@+id/image_update"
         android:layout_width="95dp"
         android:layout_height="93dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/baseline_image_24"
-        app:layout_constraintStart_toEndOf="@+id/choose_image"
+        app:layout_constraintStart_toEndOf="@+id/edit_choose_image"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <ProgressBar
@@ -99,19 +88,19 @@
         android:layout_marginEnd="171dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_details" />
+        app:layout_constraintTop_toBottomOf="@+id/edittopic_details" />
 
     <VideoView
-        android:id="@+id/videoView"
+        android:id="@+id/editvideoView"
         android:layout_width="325dp"
         android:layout_height="122dp"
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/choose_image" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_choose_image" />
 
     <Button
-        android:id="@+id/choose_video"
+        android:id="@+id/editchoose_video"
         android:layout_width="190dp"
         android:layout_height="45dp"
         android:layout_marginStart="108dp"
@@ -119,5 +108,5 @@
         android:text="اضغط لاختيار فيديو "
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoView" />
+        app:layout_constraintTop_toBottomOf="@+id/editvideoView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

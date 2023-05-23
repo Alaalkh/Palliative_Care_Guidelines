@@ -7,16 +7,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.example.palliativecareguidelines.Adapters.DoctorAdapter;
 import com.example.palliativecareguidelines.R;
@@ -27,12 +33,29 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 
 public class DoctorHome extends AppCompatActivity implements DoctorAdapter.ItemClickListener ,DoctorAdapter.ItemClickListener2 {
 FloatingActionButton fba;
+    ImageView imageView;
+    VideoView videoView;
+    Button Choosevideo;
+    Uri videouri;
+    MediaController mediaController;
+    Button chooseimage;
+    EditText address;
+    EditText cotent;
+    Button add_btn;
+    Uri imageUri;
+    StorageReference storageReference;
+    StorageReference storageReference2;
+
+    ProgressDialog progressDialog;
+
+    FirebaseFirestore firebaseFirestore;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<Topics> items;
     DoctorAdapter[] myListData;
@@ -41,10 +64,21 @@ FloatingActionButton fba;
     EditText Updatenote;
     LinearLayoutManager layoutManager = new LinearLayoutManager(this);
     RecyclerView rv;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_home);
+        progressDialog=new ProgressDialog(this);
+        imageView=findViewById(R.id.image_update);
+        chooseimage=findViewById(R.id.edit_choose_image);
+        videoView=findViewById(R.id.editvideoView);
+        Choosevideo=findViewById(R.id.editchoose_video);
+        videoView.setMediaController(mediaController);
+        videoView.start();
+        cotent=findViewById(R.id.edittopic_details);
+        address=findViewById(R.id.edittopic_address);
+        firebaseFirestore=FirebaseFirestore.getInstance();
         fba=findViewById(R.id.fab);
         rv = findViewById(R.id.recyclerview);
         items = new ArrayList<Topics>();
@@ -78,7 +112,7 @@ FloatingActionButton fba;
                                     String image = documentSnapshot.getString("topic_video");
 
 
-                                    Topics note = new Topics( title ,content,image,video);
+                                    Topics note = new Topics(id, title ,content,image,video);
                                     items.add(note);
 
                                     rv.setLayoutManager(layoutManager);
@@ -120,7 +154,6 @@ FloatingActionButton fba;
                                 items.remove(topics);
                                 Toast.makeText(DoctorHome.this, " Removed Successfully", Toast.LENGTH_SHORT).show();
 
-                                adapter.notifyDataSetChanged();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -138,8 +171,53 @@ FloatingActionButton fba;
                     }
                 });        alertDialogBuilderLabelDelete.show();
     }
+    public void updateTopic() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Topic Details");
+        final View customLayout = getLayoutInflater().inflate(R.layout.editscreen, null);
+        builder.setView(customLayout);
+        builder.setPositiveButton("Update",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+//                        Updatetitle = customLayout.findViewById(R.id.Updatetitle);
+//                        Updatenote = customLayout.findViewById(R.id.Updatenote);
+
+//                        db.collection("Notes").document(note.getId()).
+//                                update("title", Updatetitle.getText().toString(),"note",Updatenote.getText().toString())
+//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void aVoid) {
+//                                        Log.d("dareen", "DocumentSnapshot successfully updated!");
+//                                    }
+//                                })
+//                                .addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Log.w("dareen", "Error updating document", e);
+//                                    }
+//                                });
+//                    }
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////////////
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.profiledoctor, menu);
@@ -166,7 +244,7 @@ FloatingActionButton fba;
 
     @Override
     public void onItemClick(int position, String id) {
-
+           updateTopic();
     }
 
     @Override

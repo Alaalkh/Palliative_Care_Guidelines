@@ -30,10 +30,11 @@ public class Topics {
     private String topic_title;
     private String topic_video;
 
-    public Topics(String topic_title, String topic_content, String image,String topic_video) {
+    public Topics(String id,String topic_title, String topic_content, String image,String topic_video) {
         this.topic_title = topic_title;
         this.topic_content = topic_content;
         this.image = image;
+        this.id=id;
         this.topic_video=topic_video;
     }
 

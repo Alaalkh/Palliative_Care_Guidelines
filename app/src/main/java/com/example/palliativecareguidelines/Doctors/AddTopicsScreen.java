@@ -161,7 +161,7 @@ public class AddTopicsScreen extends AppCompatActivity {
                         user.put("title", title.toString());
                         user.put("content", content.toString());
                         firebaseFirestore.collection("Topics").document().set(
-                                new Topics(title,content,imageUri.toString(),videoUri.toString())
+                                new Topics("",title,content,imageUri.toString(),videoUri.toString())
                         );
 
                 });
