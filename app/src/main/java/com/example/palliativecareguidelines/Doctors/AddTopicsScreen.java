@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -139,7 +138,7 @@ public class AddTopicsScreen extends AppCompatActivity {
     public void uploadtopic(){
         storageReference= FirebaseStorage.getInstance().getReference("videos/");
 
-            storageReference.getDownloadUrl().addOnSuccessListener( videoUri -> {
+        storageReference.getDownloadUrl().addOnSuccessListener( video_Uri -> {
 
         storageReference= FirebaseStorage.getInstance().getReference("images/");
         storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -152,11 +151,8 @@ public class AddTopicsScreen extends AppCompatActivity {
                         String title=address.getText().toString();
                         String content=cotent.getText().toString();
 
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("topic_title", title.toString());
-                        user.put("topic_content", content.toString());
                         firebaseFirestore.collection("Topics").document().set(
-                                new Topics("",title,content,imageUri.toString(),videoUri.toString())
+                                new Topics("",title,content,imageUri.toString(),video_Uri.toString())
                         );
 
                 });

@@ -100,7 +100,7 @@ FloatingActionButton fba;
                                     String id = documentSnapshot.getId();
                                     String title = documentSnapshot.getString("topic_title");
                                     String content = documentSnapshot.getString("topic_content");
-                                    String video = documentSnapshot.getString("topic_image");
+                                    String video = documentSnapshot.getString("image");
                                     String image = documentSnapshot.getString("topic_video");
 
 

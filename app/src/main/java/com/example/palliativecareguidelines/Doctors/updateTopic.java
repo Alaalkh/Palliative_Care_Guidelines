@@ -125,21 +125,21 @@ public class updateTopic extends AppCompatActivity {
 
                     storageReference.getDownloadUrl().addOnSuccessListener(imageUri-> {
 
-                        firebaseFirestore.collection("Topics").document(id).
-                                update("topic_title", address.getText().toString(),
-                                        "topic_content",cotent.getText().toString()
-                                        ,"image",imageUri.toString(),
-                                        "topic_video",videoUri.toString())
+                        firebaseFirestore.collection("Topics").document(id).update("topic_title", address.getText().toString(),
+                                      "topic_content",  cotent.getText().toString(),
+                                        "image",imageUri.toString(),
+                                        "topic_video",videoUri.toString()
+                                        )
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Log.d("dareen", "DocumentSnapshot successfully updated!");
+                                        Log.d("aaa", "DocumentSnapshot successfully updated!");
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Log.w("dareen", "Error updating document", e);
+                                        Log.w("aaaa", "Error updating document", e);
                                     }
                                 });
                     });
