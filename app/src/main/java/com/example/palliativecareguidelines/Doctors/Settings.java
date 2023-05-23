@@ -126,7 +126,7 @@ public class Settings extends AppCompatActivity {
         startActivity(mainIntent);
         finish();
     }
-
+///////////////////////////
     private void RetrieveUserInfo() {
 
         Refdatabase.child("Doctors").child(currentUserrID).addValueEventListener(new ValueEventListener() {
