@@ -17,6 +17,9 @@
         android:theme="@style/Theme.PalliativeCareGuidelines"
         tools:targetApi="31">
         <activity
+            android:name=".Doctors.updateTopic"
+            android:exported="false" />
+        <activity
             android:name=".Doctors.sendrequest"
             android:exported="false" />
         <activity
@@ -62,10 +65,9 @@
         <activity
             android:name=".Doctors.AddTopicsScreen"
             android:exported="false" />
-//////
-         <activity
-         android:name=".Doctors.DoctorHome"
-         android:exported="false" />
+        <activity
+            android:name=".Doctors.DoctorHome"
+            android:exported="false" />
         <activity
             android:name=".Pationts.chooseScreen"
             android:exported="false" />

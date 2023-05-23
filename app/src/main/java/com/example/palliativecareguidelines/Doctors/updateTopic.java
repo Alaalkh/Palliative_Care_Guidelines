@@ -1,7 +1,5 @@
 package com.example.palliativecareguidelines.Doctors;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +37,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddTopicsScreen extends AppCompatActivity {
+public class updateTopic extends AppCompatActivity {
     ImageView imageView;
     VideoView videoView;
     Button Choosevideo;
@@ -48,41 +46,53 @@ public class AddTopicsScreen extends AppCompatActivity {
     Button chooseimage;
     EditText address;
     EditText cotent;
-    Button add_btn;
+
     Uri imageUri;
     StorageReference storageReference;
     StorageReference storageReference2;
-
+   Button edit;
     ProgressDialog progressDialog;
 
     FirebaseFirestore firebaseFirestore;
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_topics_screen);
+        setContentView(R.layout.activity_update_topic);
         progressDialog=new ProgressDialog(this);
-        imageView=findViewById(R.id.image_add);
-        chooseimage=findViewById(R.id.choose_image);
-        videoView=findViewById(R.id.videoView);
-        Choosevideo=findViewById(R.id.choose_video);
+        imageView=findViewById(R.id.image_update);
+        chooseimage=findViewById(R.id.edit_choose_image);
+        videoView=findViewById(R.id.editvideoView);
+        Choosevideo=findViewById(R.id.editchoose_video);
         videoView.setMediaController(mediaController);
         videoView.start();
-        add_btn=findViewById(R.id.add_btn);
-        cotent=findViewById(R.id.topic_details);
-        address=findViewById(R.id.topic_address);
+
         firebaseFirestore=FirebaseFirestore.getInstance();
+        edit=findViewById(R.id.update_btn);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               String id= getIntent().getStringExtra("id");
+                UpdateTopic(id.toString());
+            }
+        });
 
-
+        chooseimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectImage();
+            }
+        });
         Choosevideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Dexter.withContext(getApplicationContext()).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                    Intent intent=new Intent();
-                    intent.setType("video/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(intent,101);
+                        Intent intent=new Intent();
+                        intent.setType("video/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(intent,101);
                     }
 
                     @Override
@@ -92,28 +102,60 @@ public class AddTopicsScreen extends AppCompatActivity {
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-                     permissionToken.continuePermissionRequest();
+                        permissionToken.continuePermissionRequest();
                     }
                 }).check();
             }
         });
+       
+    }
 
+    private void UpdateTopic(String id) {
+        cotent=findViewById(R.id.edittopic_details);
+        address=findViewById(R.id.edittopic_address);
+        storageReference= FirebaseStorage.getInstance().getReference("videos/");
 
-        chooseimage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectImage();
-            }
-        });
-        add_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                uploadtopic();
-//                uploadVideo();
+        storageReference.getDownloadUrl().addOnSuccessListener(videoUri -> {
 
-            }
+            storageReference= FirebaseStorage.getInstance().getReference("images/");
+            storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imageView.setImageURI(null);
+
+                    storageReference.getDownloadUrl().addOnSuccessListener(imageUri-> {
+
+                        firebaseFirestore.collection("Topics").document(id).
+                                update("title", address.getText().toString(),
+                                        "content",cotent.getText().toString()
+                                        ,"image",imageUri.toString(),
+                                        "topic_video",videoUri.toString())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("dareen", "DocumentSnapshot successfully updated!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("dareen", "Error updating document", e);
+                                    }
+                                });
+                    });
+
+                    Toast.makeText(updateTopic.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(updateTopic.this, "failed", Toast.LENGTH_SHORT).show();
+
+                }
+            });
         });
     }
+
     public  void selectImage(){
         Intent intent=new Intent();
         intent.setType("image/*");
@@ -132,48 +174,5 @@ public class AddTopicsScreen extends AppCompatActivity {
             videoView.setVideoURI(videouri);
         }
     }
-
-
-
-    @SuppressLint("SuspiciousIndentation")
-    public void uploadtopic(){
-        storageReference= FirebaseStorage.getInstance().getReference("videos/");
-
-            storageReference.getDownloadUrl().addOnSuccessListener(videoUri -> {
-
-        storageReference= FirebaseStorage.getInstance().getReference("images/");
-        storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                imageView.setImageURI(null);
-
-                storageReference.getDownloadUrl().addOnSuccessListener(imageUri-> {
-
-                        String title=address.getText().toString();
-                        String content=cotent.getText().toString();
-
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("topic_title", title.toString());
-                        user.put("topic_content", content.toString());
-                        firebaseFirestore.collection("Topics").document().set(
-                                new Topics("",title,content,imageUri.toString(),videoUri.toString())
-                        );
-
-                });
-
-                Toast.makeText(AddTopicsScreen.this, "uploaded", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AddTopicsScreen.this, "failed", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        });
-    }
-
-
-
 
 }

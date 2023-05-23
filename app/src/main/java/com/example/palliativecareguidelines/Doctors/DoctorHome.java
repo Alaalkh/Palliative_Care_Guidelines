@@ -1,6 +1,7 @@
 package com.example.palliativecareguidelines.Doctors;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,7 +49,7 @@ FloatingActionButton fba;
     Button chooseimage;
     EditText address;
     EditText cotent;
-    Button add_btn;
+
     Uri imageUri;
     StorageReference storageReference;
     StorageReference storageReference2;
@@ -69,16 +70,7 @@ FloatingActionButton fba;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_home);
-        progressDialog=new ProgressDialog(this);
-        imageView=findViewById(R.id.image_update);
-        chooseimage=findViewById(R.id.edit_choose_image);
-        videoView=findViewById(R.id.editvideoView);
-        Choosevideo=findViewById(R.id.editchoose_video);
-        videoView.setMediaController(mediaController);
-        videoView.start();
-        cotent=findViewById(R.id.edittopic_details);
-        address=findViewById(R.id.edittopic_address);
-        firebaseFirestore=FirebaseFirestore.getInstance();
+
         fba=findViewById(R.id.fab);
         rv = findViewById(R.id.recyclerview);
         items = new ArrayList<Topics>();
@@ -172,10 +164,12 @@ FloatingActionButton fba;
                 });        alertDialogBuilderLabelDelete.show();
     }
     public void updateTopic() {
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Topic Details");
         final View customLayout = getLayoutInflater().inflate(R.layout.editscreen, null);
         builder.setView(customLayout);
+
         builder.setPositiveButton("Update",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 //                        Updatetitle = customLayout.findViewById(R.id.Updatetitle);
@@ -202,7 +196,6 @@ FloatingActionButton fba;
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 
 
 
@@ -244,7 +237,9 @@ FloatingActionButton fba;
 
     @Override
     public void onItemClick(int position, String id) {
-           updateTopic();
+        Intent intent=new Intent(DoctorHome.this, updateTopic.class);
+       intent.putExtra("id",items.get(position).getId());
+       startActivity(intent);
     }
 
     @Override
