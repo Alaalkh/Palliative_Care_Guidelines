@@ -1,5 +1,7 @@
 package com.example.palliativecareguidelines.Doctors;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -105,7 +108,7 @@ public class AddTopicsScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 uploadimage();
-                uploadVideo();
+//                uploadVideo();
 
             }
         });
@@ -131,31 +134,26 @@ public class AddTopicsScreen extends AppCompatActivity {
 
 
 
-    public void  uploadVideo(){
-        storageReference= FirebaseStorage.getInstance().getReference("videos/");
-        storageReference.putFile(videouri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-
-    }
+//    public void  uploadVideo(){
+//        storageReference= FirebaseStorage.getInstance().getReference("videos/");
+//        storageReference.putFile(videouri).addOnSuccessListener( videoUri -> {
+//          String video=videoUri.toString();
+//             Log.e("aaaaaaa", video.toString());
+//        });
+//    }
     public void uploadimage(){
+        storageReference= FirebaseStorage.getInstance().getReference("videos/");
+
+            storageReference.getDownloadUrl().addOnSuccessListener(videoUri -> {
+
         storageReference= FirebaseStorage.getInstance().getReference("images/");
         storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 imageView.setImageURI(null);
 
-                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
+                storageReference.getDownloadUrl().addOnSuccessListener(imageUri-> {
+
                         String title=address.getText().toString();
                         String content=cotent.getText().toString();
 
@@ -163,9 +161,9 @@ public class AddTopicsScreen extends AppCompatActivity {
                         user.put("title", title.toString());
                         user.put("content", content.toString());
                         firebaseFirestore.collection("Topics").document().set(
-                                new Topics(title,content,uri.toString())
+                                new Topics(title,content,imageUri.toString(),videoUri.toString())
                         );
-                    }
+
                 });
 
                 Toast.makeText(AddTopicsScreen.this, "uploaded", Toast.LENGTH_SHORT).show();
@@ -177,7 +175,9 @@ public class AddTopicsScreen extends AppCompatActivity {
 
             }
         });
+        });
     }
+
 
 
 

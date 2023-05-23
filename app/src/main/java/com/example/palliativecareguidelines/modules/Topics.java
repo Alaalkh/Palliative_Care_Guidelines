@@ -29,10 +29,21 @@ public class Topics {
 
     private String topic_title;
 
-    public Topics(String topic_title, String topic_content, String image) {
+    public String getTopic_video() {
+        return topic_video;
+    }
+
+    public void setTopic_video(String topic_video) {
+        this.topic_video = topic_video;
+    }
+
+    private String topic_video;
+
+    public Topics(String topic_title, String topic_content, String image,String topic_video) {
         this.topic_title = topic_title;
         this.topic_content = topic_content;
         this.image = image;
+        this.topic_video=topic_video;
     }
 
     private String topic_content;
