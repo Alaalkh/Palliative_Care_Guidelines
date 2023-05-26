@@ -45,18 +45,21 @@ public class PationtLogin extends AppCompatActivity {
         progressDialog=new ProgressDialog(this);
         btn_login.setOnClickListener(view -> {
             loginUser();
+            finish();
+
         });
 
        dont_have_account.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                startActivity(new Intent(PationtLogin.this, PationtSign.class));
-
+                finish();
 
            }
        });
         if (firebaseAuth.getCurrentUser()!= null){
             startActivity(new Intent(PationtLogin.this, HomeScreen.class));
+            finish();
 
         }
 
@@ -80,6 +83,8 @@ public class PationtLogin extends AppCompatActivity {
                         Toast.makeText(PationtLogin.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(PationtLogin.this, HomeScreen.class));
                         progressDialog.cancel();
+                        finish();
+
                     }else{
                         Toast.makeText(PationtLogin.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();

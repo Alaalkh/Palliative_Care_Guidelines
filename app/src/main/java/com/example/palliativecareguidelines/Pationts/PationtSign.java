@@ -73,6 +73,8 @@ public class PationtSign extends AppCompatActivity {
 
         Sign_btn.setOnClickListener(view ->{
             createUser();
+            finish();
+
         });
 
 
@@ -81,6 +83,7 @@ public class PationtSign extends AppCompatActivity {
       @Override
       public void onClick(View view) {
           startActivity(new Intent(PationtSign.this, PationtLogin.class));
+          finish();
 
       }
   });

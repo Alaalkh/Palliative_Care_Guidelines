@@ -145,6 +145,7 @@ FloatingActionButton fba;
                             public void onSuccess(Void unused) {
                                 items.remove(topics);
                                 Toast.makeText(DoctorHome.this, " Removed Successfully", Toast.LENGTH_SHORT).show();
+                                rv.setAdapter(adapter);
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {

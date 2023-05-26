@@ -36,7 +36,10 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class AddTopicsScreen extends AppCompatActivity {
@@ -137,11 +140,18 @@ public class AddTopicsScreen extends AppCompatActivity {
 
 
     public void uploadtopic(){
-        storageReference= FirebaseStorage.getInstance().getReference("videos/");
+        SimpleDateFormat Format=new SimpleDateFormat("yyyy_MM_dd_HH_mm_s", Locale.CANADA);
+        Date date1=new Date();
+        String filename1= Format.format(date1);
+        storageReference= FirebaseStorage.getInstance().getReference("videos/"+filename1);
 
         storageReference.getDownloadUrl().addOnSuccessListener( video_Uri -> {
 
-        storageReference= FirebaseStorage.getInstance().getReference("images/");
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy_MM_dd_HH_mm_s", Locale.CANADA);
+            Date date=new Date();
+            String filename= simpleDateFormat.format(date);
+
+        storageReference= FirebaseStorage.getInstance().getReference("images/"+filename);
         storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -164,6 +174,7 @@ public class AddTopicsScreen extends AppCompatActivity {
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
                                     Toast.makeText(AddTopicsScreen.this, " Added Successfully", Toast.LENGTH_SHORT).show();
+                                    notifyAll();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
