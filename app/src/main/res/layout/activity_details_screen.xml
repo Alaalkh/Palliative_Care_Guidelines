@@ -35,13 +35,6 @@
                     android:orientation="vertical">
 
                     <!-- Media -->
-                    <ImageView
-
-                        android:id="@+id/imagepationt"
-                        android:layout_width="match_parent"
-                        android:layout_height="194dp"
-                        android:contentDescription="image"
-                        android:scaleType="centerCrop" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -51,7 +44,7 @@
 
                         <!-- Title, secondary and supporting text -->
                         <TextView
-                            android:id="@+id/topictitle"
+                            android:id="@+id/topic_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="title"
@@ -59,7 +52,7 @@
                             android:textColor="@color/blue" />
 
                         <TextView
-                            android:id="@+id/topicdes"
+                            android:id="@+id/topic_des"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"

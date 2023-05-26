@@ -26,8 +26,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class HomeScreen extends AppCompatActivity implements PationtAdapter.ItemClickListener2, PationtAdapter.ItemClickListener {
     SearchView searchView;
@@ -153,9 +159,17 @@ public class HomeScreen extends AppCompatActivity implements PationtAdapter.Item
         Intent intent= new Intent(this,DetailsScreen.class);
         intent.putExtra("title", items.get(position).getTopic_title());
         intent.putExtra("content", items.get(position).getTopic_content());
-        intent.putExtra("title", items.get(position).getTopic_title());
-
+        StorageReference storageReference;
+        SimpleDateFormat Format=new SimpleDateFormat("yyyy_MM_dd_HH_mm_s", Locale.CANADA);
+        Date date1=new Date();
+        String filename1= Format.format(date1);
+//        storageReference= FirebaseStorage.getInstance().getReference("videos");
+//        storageReference.getDownloadUrl().addOnSuccessListener( video_Uri -> {
+//            String link=video_Uri.toString();
+//          intent.putExtra("link",link);
         startActivity(intent);
+//        });
+
     }
 
     @Override

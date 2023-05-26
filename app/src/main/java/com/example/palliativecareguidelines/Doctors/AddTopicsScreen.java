@@ -83,7 +83,7 @@ public class AddTopicsScreen extends AppCompatActivity {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                     Intent intent=new Intent();
-                    intent.setType("video/*");
+                    intent.setType("videos/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(intent,101);
                     }
@@ -140,10 +140,8 @@ public class AddTopicsScreen extends AppCompatActivity {
 
 
     public void uploadtopic(){
-        SimpleDateFormat Format=new SimpleDateFormat("yyyy_MM_dd_HH_mm_s", Locale.CANADA);
-        Date date1=new Date();
-        String filename1= Format.format(date1);
-        storageReference= FirebaseStorage.getInstance().getReference("videos/"+filename1);
+
+        storageReference= FirebaseStorage.getInstance().getReference("videos/");
 
         storageReference.getDownloadUrl().addOnSuccessListener( video_Uri -> {
 
