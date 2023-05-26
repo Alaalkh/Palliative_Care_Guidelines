@@ -78,7 +78,7 @@ public class PationtLogin extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
                         Toast.makeText(PationtLogin.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(PationtLogin.this, PatientsOptions.class));
+                        startActivity(new Intent(PationtLogin.this, HomeScreen.class));
                         progressDialog.cancel();
                     }else{
                         Toast.makeText(PationtLogin.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

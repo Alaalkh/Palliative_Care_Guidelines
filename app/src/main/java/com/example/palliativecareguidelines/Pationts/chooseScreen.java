@@ -25,6 +25,7 @@ public class chooseScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(chooseScreen.this, Doctorlogin.class));
+                finish();
 
             }
         });
@@ -33,7 +34,7 @@ public class chooseScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(chooseScreen.this, PationtLogin.class));
-
+                finish();
             }
         });
     }

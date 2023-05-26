@@ -78,6 +78,7 @@ public class Doctorlogin extends AppCompatActivity {
                     if (task.isSuccessful()){
                         Toast.makeText(Doctorlogin.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(Doctorlogin.this, DoctorHome.class));
+                        finish();
                         progressDialog.cancel();
                     }else{
                         Toast.makeText(Doctorlogin.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

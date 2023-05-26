@@ -59,7 +59,7 @@ public class ProfilePAtiont extends AppCompatActivity {
             public void onClick(View view) {
                 Auth.signOut();
                 startActivity(new Intent(ProfilePAtiont.this, PationtLogin.class));
-
+                finish();
             }
         });
     }
