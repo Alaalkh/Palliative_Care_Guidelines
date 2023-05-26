@@ -152,6 +152,9 @@ public class HomeScreen extends AppCompatActivity implements PationtAdapter.Item
     public void onItemClick2(int position, String id) {
         Intent intent= new Intent(this,DetailsScreen.class);
         intent.putExtra("title", items.get(position).getTopic_title());
+        intent.putExtra("content", items.get(position).getTopic_content());
+        intent.putExtra("title", items.get(position).getTopic_title());
+
         startActivity(intent);
     }
 
