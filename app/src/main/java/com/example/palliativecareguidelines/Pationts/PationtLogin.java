@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.palliativecareguidelines.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,6 +28,8 @@ public class PationtLogin extends AppCompatActivity {
     ProgressDialog progressDialog;
     EditText email1;
     EditText pass;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     Button btn_login;
     TextView dont_have_account;
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
@@ -34,6 +37,8 @@ public class PationtLogin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pationt_login);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         progressDialog = new ProgressDialog(this);
@@ -80,6 +85,7 @@ public class PationtLogin extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
+                        btnEvent("login","Pationt","Button");
                         Toast.makeText(PationtLogin.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(PationtLogin.this, HomeScreen.class));
                         progressDialog.cancel();
@@ -94,5 +100,11 @@ public class PationtLogin extends AppCompatActivity {
         }
     }
 
-
+    public  void btnEvent(String id,String name,String content){
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, content);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }
 }

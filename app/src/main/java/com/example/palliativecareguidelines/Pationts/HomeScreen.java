@@ -21,11 +21,15 @@ import com.example.palliativecareguidelines.Adapters.DoctorAdapter;
 import com.example.palliativecareguidelines.Adapters.PationtAdapter;
 import com.example.palliativecareguidelines.R;
 import com.example.palliativecareguidelines.modules.Topics;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -44,6 +48,7 @@ public class HomeScreen extends AppCompatActivity implements PationtAdapter.Item
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<Topics> items;
     DoctorAdapter[] myListData;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     PationtAdapter adapter;
     EditText Updatetitle;
@@ -60,21 +65,71 @@ public class HomeScreen extends AppCompatActivity implements PationtAdapter.Item
         adapter =new PationtAdapter(this,items,this,this);
         getTopics();
         searchView = findViewById(R.id.searchview);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
 
+        FirebaseMessaging.getInstance().subscribeToTopic("Topics")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.e("a","Done");
+                    }
+                })     .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("a","Failed");
 
+                    }
+                })  ;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
+               searchtopic(query);
 
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                searchtopic(newText);
+
                 return false;
+            }
+        });
+    }
+
+    private void searchtopic(String query) {
+        db.collection("Topics").whereEqualTo("topic_title",query).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                    if (documentSnapshot.exists()) {
+                        items.clear();
+                        String id = documentSnapshot.getId();
+                        String title = documentSnapshot.getString("topic_title");
+                        String content = documentSnapshot.getString("topic_content");
+                        String video = documentSnapshot.getString("topic_video");
+                        String image = documentSnapshot.getString("topic_image");
+
+
+                        Topics topics = new Topics(id, title ,content,image,video);
+                        items.add(topics);
+
+                        rv.setLayoutManager(layoutManager);
+                        rv.setHasFixedSize(true);
+                        rv.setAdapter(adapter);
+                        ;
+                        adapter.notifyDataSetChanged();
+                        Log.e("LogDATA", items.toString());
+
+                    }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
             }
         });
     }
@@ -156,24 +211,32 @@ public class HomeScreen extends AppCompatActivity implements PationtAdapter.Item
 
     @Override
     public void onItemClick2(int position, String id) {
+        btnEvent("topic","topics","MaterialButton");
         Intent intent= new Intent(this,DetailsScreen.class);
-        intent.putExtra("title", items.get(position).getTopic_title());
-        intent.putExtra("content", items.get(position).getTopic_content());
+       intent.putExtra("title", items.get(position).getTopic_title());
+       intent.putExtra("content", items.get(position).getTopic_content());
         StorageReference storageReference;
-        SimpleDateFormat Format=new SimpleDateFormat("yyyy_MM_dd_HH_mm_s", Locale.CANADA);
-        Date date1=new Date();
+       SimpleDateFormat Format=new SimpleDateFormat("yyyy_MM_dd_HH_mm_s", Locale.CANADA);
+       Date date1=new Date();
         String filename1= Format.format(date1);
-//        storageReference= FirebaseStorage.getInstance().getReference("videos");
-//        storageReference.getDownloadUrl().addOnSuccessListener( video_Uri -> {
-//            String link=video_Uri.toString();
-//          intent.putExtra("link",link);
-        startActivity(intent);
-//        });
+      storageReference= FirebaseStorage.getInstance().getReference("videos.mp4/");
+       storageReference.getDownloadUrl().addOnSuccessListener( video_Uri -> {
+          String link=video_Uri.toString();
+        intent.putExtra("link",link);
+           startActivity(intent);
+       });
 
     }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
+    }
+    public  void btnEvent(String id,String name,String content){
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, content);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 }

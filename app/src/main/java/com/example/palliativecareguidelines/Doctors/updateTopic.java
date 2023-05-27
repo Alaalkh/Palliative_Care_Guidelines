@@ -34,7 +34,10 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class updateTopic extends AppCompatActivity {
@@ -113,11 +116,13 @@ public class updateTopic extends AppCompatActivity {
     private void UpdateTopic(String id) {
         cotent=findViewById(R.id.edittopic_details);
         address=findViewById(R.id.edittopic_address);
-        storageReference= FirebaseStorage.getInstance().getReference("videos/");
+        storageReference= FirebaseStorage.getInstance().getReference("videos.mp4/");
 
         storageReference.getDownloadUrl().addOnSuccessListener(videoUri -> {
-
-            storageReference= FirebaseStorage.getInstance().getReference("images/");
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy_MM_dd_HH_mm_s", Locale.CANADA);
+            Date date=new Date();
+            String filename= simpleDateFormat.format(date);
+            storageReference= FirebaseStorage.getInstance().getReference("images.png/"+filename);
             storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

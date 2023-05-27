@@ -19,6 +19,7 @@ import com.example.palliativecareguidelines.R;
 import com.example.palliativecareguidelines.modules.PationtsModule;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -46,11 +47,13 @@ public class PationtSign extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     PationtsModule pationtsModule;
+   private FirebaseAnalytics mFirebaseAnalytics;
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         setContentView(R.layout.activity_pationt_sign);
         Sign_btn = findViewById(R.id.register);
@@ -123,7 +126,7 @@ public class PationtSign extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
-
+                        btnEvent("Sign","Pationt","Button");
                         startActivity(new Intent(PationtSign.this, HomeScreen.class));
 //                        doctorModule pationtsModule = new doctorModule(name, address, birthdate, email, phone, password, confrimpassword);
 //                        databaseReference.child(name).setValue(pationtsModule);
@@ -147,6 +150,12 @@ public class PationtSign extends AppCompatActivity {
 
     }
 
-
+    public  void btnEvent(String id,String name,String content){
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, content);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }
 
 }

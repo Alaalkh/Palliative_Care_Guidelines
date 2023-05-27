@@ -83,7 +83,7 @@ public class AddTopicsScreen extends AppCompatActivity {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                     Intent intent=new Intent();
-                    intent.setType("videos/*");
+                    intent.setType("video/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(intent,101);
                     }
@@ -140,8 +140,11 @@ public class AddTopicsScreen extends AppCompatActivity {
 
 
     public void uploadtopic(){
+        SimpleDateFormat simpleDateFormat1=new SimpleDateFormat("yyyy_MM_dd_HH_mm_s", Locale.CANADA);
+        Date date1=new Date();
+        String filename1= simpleDateFormat1.format(date1);
 
-        storageReference= FirebaseStorage.getInstance().getReference("videos/");
+        storageReference= FirebaseStorage.getInstance().getReference("videos.mp4/");
 
         storageReference.getDownloadUrl().addOnSuccessListener( video_Uri -> {
 
@@ -149,7 +152,7 @@ public class AddTopicsScreen extends AppCompatActivity {
             Date date=new Date();
             String filename= simpleDateFormat.format(date);
 
-        storageReference= FirebaseStorage.getInstance().getReference("images/"+filename);
+        storageReference= FirebaseStorage.getInstance().getReference("images.png/"+filename);
         storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -172,7 +175,7 @@ public class AddTopicsScreen extends AppCompatActivity {
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
                                     Toast.makeText(AddTopicsScreen.this, " Added Successfully", Toast.LENGTH_SHORT).show();
-                                    notifyAll();
+                                     notify();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {

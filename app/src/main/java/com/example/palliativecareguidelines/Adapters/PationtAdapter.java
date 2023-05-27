@@ -57,7 +57,13 @@ public class PationtAdapter extends RecyclerView.Adapter<PationtAdapter.ViewHold
           }
       });
 
+        holder.notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mClickListener.onItemClick(holder.getAdapterPosition(), mData.get(position).getId());
 
+            }
+        });
 //
     }
     //  private  int getRandomColor(){
@@ -84,10 +90,13 @@ public class PationtAdapter extends RecyclerView.Adapter<PationtAdapter.ViewHold
         public MaterialButton card;
         public ImageView edit;
         public ImageView topicimage;
+        public ImageView notification;
 
         ViewHolder(View itemView) {
             super(itemView);
             this.title = itemView.findViewById(R.id.topictitle);
+            this.notification = itemView.findViewById(R.id.notification);
+
             this.content = itemView.findViewById(R.id.topicdes);
             this.edit = itemView.findViewById(R.id.edit);
             this.card = itemView.findViewById(R.id.showmore);
